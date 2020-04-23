@@ -1,0 +1,53 @@
+<!DOCTYPE html><html>
+    <head>
+    </head>
+    <body>
+        <form action="">
+            <input type="text" id="input" value="paroche">
+            <input type="submit" onClick=" bl.draw()">
+
+        </form>
+        <div id="elm"></div> 
+       </body>
+            <script>
+            
+        class message{
+            constructor (url){
+                this.url=url;
+
+                }
+            
+           
+
+            
+             async returnMessages(){
+            let author= document.getElementById("input").value;
+              const response = await fetch(this.url);
+                const  commits = await response.json();
+                //console.log(commits);
+                return commits.filter(e => e.author.login==author);
+                
+                
+            }
+
+            async  draw(){
+                const messages= await this.returnMessages();
+
+
+                    messages.map(user => {
+                      let div=  document.createElement("div");
+                        div.innerHTML = user.commit.message;
+                        document.getElementById("elm").append(div);
+                    })
+                
+
+
+            }
+        }
+
+        const bl = new message("https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits");
+        //bl.draw();
+       
+    
+    </script>
+</html>
